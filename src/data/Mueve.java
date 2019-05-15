@@ -120,9 +120,13 @@ public class Mueve implements Runnable{
      * para mover la Figura actual. El nivel más lento será
      * el 0 (retardo 700) y el más rápido el 10 (retardo 50)
      */
-    private int actualizaRetardo(int nivel) {
+    public int actualizaRetardo(int nivel) {
         if (nivel>10) nivel=10;
         else if (nivel<0) nivel=0;
         return ( 400-(nivel*35) );
+    }
+    
+    public void setDelay(int retardo){
+        this.delay = retardo;
     }
 }

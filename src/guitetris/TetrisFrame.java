@@ -14,8 +14,9 @@ public class TetrisFrame extends javax.swing.JFrame {
     private Rejilla rejilla;
     private Figura figura;
     private Mueve mueve;
-    private static int time_ini;
-    private static int time_end;
+    private Tiempo tiempo;
+    private static int points;
+    private int nivel;
     
     /**
      * Creates new form TetrisFrame
@@ -27,30 +28,22 @@ public class TetrisFrame extends javax.swing.JFrame {
         inicializaJuego();
     }
     
+    public static void addPoints(int n){
+        TetrisFrame.points += n;
+        /*
+        if (points%1==0){
+            mueve = new Mueve(this,nivel++);
+        }
+        */
+    }
+    
     /**
      * Obtiene una referencia a la Rejilla del juego
      * @return una referencia a la Rejilla del juego
      */
     public Rejilla getRejilla(){
         return rejilla;
-    }
-    
-    public int getTime_ini() {
-        return time_ini;
-    }
-
-    public void setTime_ini(int time_ini) {
-        this.time_ini = time_ini;
-    }
-
-    public int getTime_end() {
-        return time_end;
-    }
-
-    public void setTime_end(int time_end) {
-        this.time_end = time_end;
-    }
-    
+    } 
     
     
     /**
@@ -66,6 +59,7 @@ public class TetrisFrame extends javax.swing.JFrame {
      */
     public void nuevaFigura(){
         figura = Figura.nuevaFigura();
+        ImprimirPuntos();
     }
     
     /**
@@ -73,13 +67,21 @@ public class TetrisFrame extends javax.swing.JFrame {
      * la tarea de mover la figura actual.
      */
     private void inicializaJuego(){
+        points=0;
         nuevaFigura();
-        if (mueve!=null && !mueve.getTerminado())
+        if (mueve!=null && !mueve.getTerminado()){
             mueve.terminar();
+            tiempo.terminar();
+        }
         mueve = new Mueve(this,2);
+        tiempo = new Tiempo(this);
+        
         
         Thread t = new Thread(mueve);
         t.start();
+        Thread h = new Thread(tiempo);
+        h.start();
+        
         //time_ini = (int) System.currentTimeMillis();
         mueve.reanudar();
     }
@@ -116,6 +118,8 @@ public class TetrisFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         NewItem = new javax.swing.JMenuItem();
@@ -137,6 +141,8 @@ public class TetrisFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         jLabel3.setText("Play Time:");
+
+        jLabel4.setText("Points:");
 
         FileMenu.setMnemonic('F');
         FileMenu.setText("File");
@@ -174,7 +180,9 @@ public class TetrisFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
                 .addGap(56, 56, 56)
                 .addComponent(rejillaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
@@ -197,6 +205,10 @@ public class TetrisFrame extends javax.swing.JFrame {
                         .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
+                .addGap(40, 40, 40)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -217,12 +229,15 @@ public class TetrisFrame extends javax.swing.JFrame {
     public void setJLabel1(String cadena){
         jLabel1.setText(cadena);
     }
-    /*
-    public void setTimeLabel(){
-        //jLabel2.setText(getTiempoJuego(time_ini,time_end));
-        System.out.println(getTiempoJuego(time_ini, time_end));
+    
+    public void ImprimirPuntos(){
+        jLabel5.setText(points+"");
     }
-    */
+    
+    public void setTimeLabel(String cadena){
+        jLabel2.setText(cadena);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -266,6 +281,8 @@ public class TetrisFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private guitetris.RejillaPanel rejillaPanel1;
     // End of variables declaration//GEN-END:variables

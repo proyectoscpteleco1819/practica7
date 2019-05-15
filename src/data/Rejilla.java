@@ -1,5 +1,7 @@
 package data;
 
+import guitetris.TetrisFrame;
+
 /**
  * Esta clase representa una rejilla con una determinada Anchura
  * y Altura, en la que cada celda puede estar VACIA, contener
@@ -209,6 +211,8 @@ public class Rejilla{
                 llena=false;
             i++;
         }
+        if (llena)
+            TetrisFrame.addPoints(5);
         return llena;
     }
     
@@ -250,5 +254,6 @@ public class Rejilla{
             celdas[i][fdestino]=celdas[i][forigen];
         }
     }
+    
 }
 

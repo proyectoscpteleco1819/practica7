@@ -62,8 +62,8 @@ public class RejillaPanel extends javax.swing.JPanel {
     public void dibujaRejilla(java.awt.Graphics g){
         int i,j;
         Rejilla rejilla=frame.getRejilla();
-        frame.setTime_end((int) System.currentTimeMillis());
-        frame.setTimeLabel();
+        //frame.setTime_end((int) System.currentTimeMillis());
+        //frame.setTimeLabel();
         int xoffset=(getWidth()-rejilla.getAnchura()*anchoCelda)/2;
         for(i=0;i<rejilla.getAnchura();i++){
             for(j=0;j<rejilla.getAltura();j++){
